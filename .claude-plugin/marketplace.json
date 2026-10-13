@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "papischolz",
+  "name": "session-closure",
   "owner": {
     "name": "Ezequiel Scholz",
     "url": "https://github.com/PapiScholz"

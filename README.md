@@ -34,7 +34,7 @@ From the Claude plugin directory, once it is listed there. Or from this reposito
 
 ```bash
 claude plugin marketplace add PapiScholz/session-closure
-claude plugin install session-closure@papischolz
+claude plugin install session-closure@session-closure
 ```
 
 Then, at the end of a session:
