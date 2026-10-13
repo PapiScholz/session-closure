@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1B2A4A"/>
+      <stop offset="1" stop-color="#0F1A30"/>
+    </linearGradient>
+    <linearGradient id="leafL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#C9822E"/>
+      <stop offset="1" stop-color="#F2A541"/>
+    </linearGradient>
+    <linearGradient id="leafR" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#C9822E"/>
+      <stop offset="1" stop-color="#F2A541"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#FFD27A" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#FFD27A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="200" fill="url(#bg)"/>
+
+  <!-- warm light leaking through the closing gap -->
+  <ellipse cx="512" cy="566" rx="120" ry="330" fill="url(#halo)"/>
+  <rect x="494" y="282" width="36" height="566" fill="#FFE7A8"/>
+
+  <!-- door frame -->
+  <rect x="268" y="250" width="488" height="630" rx="10" fill="none" stroke="#E9E4DA" stroke-width="28"/>
+
+  <!-- leaves swinging shut: free edges taller (nearer the viewer) -->
+  <polygon points="300,286 494,270 494,862 300,846" fill="url(#leafL)"/>
+  <rect x="452" y="532" width="16" height="72" rx="8" fill="#0F1A30"/>
+  <polygon points="530,270 724,286 724,846 530,862" fill="url(#leafR)"/>
+  <rect x="556" y="532" width="16" height="72" rx="8" fill="#0F1A30"/>
+
+  <!-- closing motion: both arrows point to the center -->
+  <path d="M312 196 Q390 130 462 170" fill="none" stroke="#E9E4DA" stroke-width="22" stroke-linecap="round"/>
+  <polygon points="492,192 438,196 466,146" fill="#E9E4DA"/>
+  <path d="M712 196 Q634 130 562 170" fill="none" stroke="#E9E4DA" stroke-width="22" stroke-linecap="round"/>
+  <polygon points="532,192 586,196 558,146" fill="#E9E4DA"/>
+</svg>
