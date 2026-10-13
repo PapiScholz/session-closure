@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "papischolz",
+  "owner": {
+    "name": "Ezequiel Scholz",
+    "url": "https://github.com/PapiScholz"
+  },
+  "plugins": [
+    {
+      "name": "session-closure",
+      "source": "./",
+      "description": "Turn session lessons into hooks, tests and runbooks instead of more CLAUDE.md text."
+    }
+  ],
+  "metadata": {
+    "description": "Plugins by Ezequiel Scholz for Claude Code."
+  }
+}

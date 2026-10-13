@@ -1,0 +1,13 @@
+{
+  "name": "session-closure",
+  "version": "1.0.0",
+  "description": "Closes a session by turning what it taught into the cheapest mechanism that still enforces it: a hook, a test, a rules file or a runbook, before falling back to one more paragraph in CLAUDE.md.",
+  "author": {
+    "name": "Ezequiel Scholz",
+    "url": "https://github.com/PapiScholz"
+  },
+  "homepage": "https://github.com/PapiScholz/session-closure",
+  "repository": "https://github.com/PapiScholz/session-closure",
+  "license": "MIT",
+  "keywords": ["retrospective", "lessons-learned", "claude-md", "hooks", "automation", "session"]
+}
