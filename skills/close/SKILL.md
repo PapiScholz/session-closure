@@ -25,6 +25,8 @@ follows the language already used in the destination file.
 `[environment | dependencies | configuration | architecture | data | tooling | interpretation | execution]`
 
 **Wasted iterations** — max 3, only the ones that cost real time, `[assumption → error]`.
+A user correction is rework even when no tool failed: "I don't get it", "that's not true", "why?",
+"give me the steps", a rejected proposal. Read every message the user typed before concluding.
 *Zero failures ≠ nothing to report*: with no rework, switch the lens to EFFICIENCY — up to 3
 `[avoidable cost → cheaper alternative]`. With neither: `None material`. Never fabricate entries.
 
@@ -44,8 +46,10 @@ judgment"* without saying which judgment, no.
 **Internal check** — does the root cause explain everything? does each rule stop its class from
 coming back? what was learned and not persisted, and why?
 
-**If the session was compacted**, the analysis comes from the transcript `.jsonl` via a cheap
-subagent (Sonnet/Haiku): which tool calls failed and which were repeated — not from the summary.
+**If the session was compacted, or the closure covers several sessions**, the analysis comes from
+the transcript `.jsonl` files via a cheap subagent (Sonnet/Haiku), not from the summary: which tool
+calls failed, which were repeated, **and every message the user typed** (user entries with no
+`tool_result`). Corrections leave no error behind, so a scan of failures alone misses them.
 Never inherit the session model.
 
 ---
