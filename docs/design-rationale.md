@@ -90,3 +90,24 @@ That is most of the saving: most closures never reach that level and don't pay f
 
 If the ledger shows in a few months that the `Levels` column is still full of 4-6, the problem wasn't
 the table and has to be looked for elsewhere.
+
+## 1.1.0 — the inventory comes from the transcript
+
+Two closures run back to back on the same session both missed two lessons: a stale generated client
+that left the type check red until the agent regenerated it (a Stop hook had refused to end the turn),
+and a false red in a test suite caused by a temporary file another subagent created and deleted
+mid-run. The second closure answered "Nothing to save" after looking only at what happened since the
+first one.
+
+The obvious suspect was the analysis instruction: it named failed calls, repeated calls and user
+messages, and neither lesson was a user correction. The baseline test said otherwise. A fresh Sonnet
+subagent given the **old** instruction and the session's `.jsonl` listed both lessons on its first
+pass. The instruction was good enough; what failed was where the analysis came from. The working
+agent recalled the session instead of reading it, and from the inside a repair made in passing —
+regenerating the client — reads as progress, not as a failure.
+
+So 1.1.0 changes three things: the inventory always comes from the transcript through a cheap
+subagent (before, only when the session was compacted); it covers the whole session even on a second
+closure; and everything inventoried but not saved is shown to the user, so "Nothing to save" can be
+checked instead of trusted. The five evidence sources are spelled out too, but the RED shows that is
+the smaller part of the fix.

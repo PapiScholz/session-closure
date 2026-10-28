@@ -62,6 +62,10 @@ This section is the full list of what the plugin does on your machine:
   - `~/.claude/skill-candidates.md`: repeated workflows that might become skills.
 - On approval only, it edits the destinations in the ladder: your repo's `CLAUDE.md`/`docs/`/tests,
   `~/.claude/CLAUDE.md`, `~/.claude/rules/`, hook files and `settings.json`.
+- It reads the current session's transcript (`~/.claude/projects/**/<session>.jsonl`) through a
+  small subagent to list what went wrong: failed or repeated commands, hook blocks, odd verification
+  results, environment repairs and your corrections. Everything it found and decided not to save is
+  shown to you, one line each, so a missed lesson is visible.
 - To check whether past skills are actually used, it may grep your local session transcripts
   (`~/.claude/projects/**/*.jsonl`). It sends nothing anywhere.
 

@@ -19,16 +19,54 @@ follows the language already used in the destination file.
 
 ## Phase 1 · Analysis
 
+### 1.0 · Inventory first, before any cap
+
+Lessons are lost when the analysis picks *what to look at* before looking. So the first step is an
+inventory of the **whole session** — not the last stretch, not "since the previous closure" — with
+one line per event from each of these five sources:
+
+| Source | What it looks like |
+|---|---|
+| Tool calls that failed or were repeated | non-zero exit, error result, same call twice |
+| Hook blocks and hook feedback | a denied PreToolUse, a Stop hook that refused to end the turn, a guard's warning |
+| Anomalous verification results | a subagent or check that came back red-but-not-really, flaky, "passed, but…" |
+| Unrequested environment repairs | anything the agent ran to fix its own setup: regenerate, reinstall, restart, clear a cache |
+| User corrections | "I don't get it", "that's not true", "why?", "give me the steps", "and?", a repeated request, a rejected proposal |
+
+The last three leave **no failed tool call** behind, so a scan of errors alone misses them. A repair
+the agent made in passing is the strongest signal of all: the environment broke once and will break
+again.
+
+Each inventory line ends in exactly one of: **→ rule** (goes on to the analysis below),
+**→ level 0** (name the hook, gate or rule that already covers it), or **→ dropped** (a falsifiable
+reason). No line is left without a verdict. The caps below apply **after** this, by merging lines of
+the same class — never by not listing them.
+
+**A second closure in the same session** inventories the whole session again and crosses it against
+what the previous closure persisted (its ledger line, the files it wrote). Say the range in one line.
+"Nothing new since the last closure" is only valid if the previous closure's inventory covered every
+line.
+
+**The inventory always comes from the transcript, never from memory.** Hand the session's `.jsonl`
+(and any other session the closure covers) to a cheap subagent (Sonnet/Haiku, never the session
+model) and ask it for all five sources explicitly — hook feedback and subagent reports are entries
+too, not only `tool_result` errors and user messages. The agent that did the work is the worst judge
+of what went wrong in it: by closing time, a repair it made in passing feels like progress, not like
+a failure. Recalling the session instead of reading it is the single most common way a closure ends
+in "Nothing to save" with lessons on the table. Only if no transcript is reachable, build it from
+memory and say so in the range line.
+
+### 1.1 · Analysis
+
 120 words max. No narrative, no repeated context, no explaining the obvious.
 
 **Root cause** — 1 line + category
 `[environment | dependencies | configuration | architecture | data | tooling | interpretation | execution]`
 
-**Wasted iterations** — max 3, only the ones that cost real time, `[assumption → error]`.
-A user correction is rework even when no tool failed: "I don't get it", "that's not true", "why?",
-"give me the steps", a rejected proposal. Read every message the user typed before concluding.
-*Zero failures ≠ nothing to report*: with no rework, switch the lens to EFFICIENCY — up to 3
-`[avoidable cost → cheaper alternative]`. With neither: `None material`. Never fabricate entries.
+**Wasted iterations** — max 3, taken from the inventory lines marked **→ rule**, merged by class,
+`[assumption → error]`. *Zero failures ≠ nothing to report*: with no rework, switch the lens to
+EFFICIENCY — up to 3 `[avoidable cost → cheaper alternative]`. With neither: `None material` — valid
+only when every inventory line has a level-0 or dropped verdict. Never fabricate entries.
 
 **Break point** — the exact change that resolved it: file / command / decision.
 
@@ -44,13 +82,7 @@ Falsifiable = checkable ("a hook cannot read the user's turn"). *"It's complicat
 judgment"* without saying which judgment, no.
 
 **Internal check** — does the root cause explain everything? does each rule stop its class from
-coming back? what was learned and not persisted, and why?
-
-**If the session was compacted, or the closure covers several sessions**, the analysis comes from
-the transcript `.jsonl` files via a cheap subagent (Sonnet/Haiku), not from the summary: which tool
-calls failed, which were repeated, **and every message the user typed** (user entries with no
-`tool_result`). Corrections leave no error behind, so a scan of failures alone misses them.
-Never inherit the session model.
+coming back? does every inventory line have a verdict? what was learned and not persisted, and why?
 
 ---
 
@@ -123,7 +155,12 @@ N. <what changes> — you'll notice: <nothing / it stops you when… / it warns 
 
 Max 25 words per line, and **nothing else**: Phase 1, the routing table and the "Final output" block
 are internal work, not shown unless asked. End with "OK?" and wait. Applies to **every**
-destination. No changes → "Nothing to save." and only the ledger.
+destination.
+
+**What was left out is shown too.** After the change lines, one line per inventory entry that ended
+in level 0 or dropped: `- <what happened> — not saved: <already covered by X / reason>`. A closure
+that saves nothing still shows this list ("Nothing to save." followed by it): a silent "Nothing to
+save" gives the user no way to notice a missed lesson.
 
 ---
 
@@ -236,8 +273,10 @@ still true?* Harness capabilities change. If it still holds, update the date and
 
 ## Budget
 
-- **Soft ceiling ~25k tokens.** No subagents except the two named cases (compacted transcript,
-  level-1b hook script), and on Sonnet/Haiku — never inheriting the session model.
+- **Soft ceiling ~25k tokens** in the session itself. Subagents only for the named cases (the
+  transcript inventory of Phase 1.0, a level-1b hook script, the skill RED of Phase 4), on
+  Sonnet/Haiku — never inheriting the session model. The transcript inventory is not optional to
+  save budget: it is the step that finds the lessons.
 - **Registries on condition only**: `skill-candidates.md` only if Phase 4 found a candidate;
   `mechanization-candidates.md` only if some rule has a signature, or it's the loop's turn.
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0 — 2026-10-28
+
+- The analysis starts with an inventory of the whole session, built from the transcript by a cheap
+  subagent every time (before: only for compacted sessions). Five sources: failed or repeated calls,
+  hook blocks and feedback, anomalous verification results, unrequested environment repairs, and user
+  corrections. Every entry gets a verdict before the 3-rule cap applies.
+- A second closure in the same session re-inventories the whole session instead of the stretch since
+  the previous one.
+- What was inventoried but not saved is shown to the user, one line each, including after "Nothing to
+  save.". Why: `docs/design-rationale.md` § 1.1.0.
+
 ## 1.0.1 — 2026-10-21
 
 - Analysis reads every message the user typed, not only failed and repeated tool calls: a user
