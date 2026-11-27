@@ -1,14 +1,40 @@
 name: ci
+
+# Inline on purpose: the directory refuses script files (.mjs, .sh, anything
+# starting with #!) from non-Verified organizations.
+
 on:
   push:
   pull_request:
+
+permissions:
+  contents: read
+
 jobs:
-  test:
+  leftovers:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: node --test "tests/*.test.mjs"
-      - run: node scripts/check-leftovers.mjs
+      - name: No personal paths or private project names in what ships
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s inherit_errexit  # a failing scan inside $(...) must stop the step
+          export LC_ALL=C.UTF-8
+          ROOTS=(.claude-plugin skills docs README.md CHANGELOG.md)
+          for r in "${ROOTS[@]}"; do
+            [[ -e "$r" ]] || { echo "FAIL  root '$r' is missing; update ROOTS"; exit 1; }
+          done
+          # grep exits 1 for "no match" and 2 for an error; only 1 is a clean result.
+          # -a reads binaries too: PNG text chunks can carry the export path.
+          scan() { grep -rna "$@" "${ROOTS[@]}" || [[ $? -eq 1 ]]; }
+          hits=$(
+            scan -iE 'ezesc|C:\\Users\\|\bnandi\b|\bsgg\b|almac(e|é)n|macritex|graphify|HEUR(I|Í)STICAS'
+            scan -E '# INVARIANTS'
+          )
+          if [[ -n "$hits" ]]; then
+            echo "$hits"
+            echo "FAIL  personal leftovers found"
+            exit 1
+          fi
+          echo "No personal leftovers found."

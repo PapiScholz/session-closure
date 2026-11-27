@@ -47,12 +47,7 @@ Then, at the end of a session:
 
 This section is the full list of what the plugin does on your machine:
 
-- **One hook**, `hooks/lesson-batching-guard.mjs`, registered as `PreToolUse` on `Edit|MultiEdit`.
-  It reads the tool input that Claude Code passes on stdin. If an edit to a file named `CLAUDE.md`
-  adds more than 3 bullets that look like lessons (`- **...`), it blocks the edit. You can let the
-  edit through by including the marker `<!-- ROUTING-TABLE-EMITTED -->`. It runs locally, makes no
-  network calls and writes nothing. It needs `node` on your `PATH`. Without `node` the hook errors,
-  but it never blocks.
+- **No hooks, no scripts.** The plugin is one skill made of Markdown files.
 - **The skill** (`skills/close/SKILL.md`) asks Claude to read and append to these files in your
   home directory, creating them with a header if they're missing:
   - `~/.claude/closure-ledger.md`: one line per closure, used to check whether closures are
@@ -80,9 +75,11 @@ This section is the full list of what the plugin does on your machine:
 ## Development
 
 ```bash
-node --test "tests/*.test.mjs"
 claude plugin validate .
 ```
+
+CI checks that nothing personal leaks into what ships and that every change to the plugin bumps
+its version.
 
 Design notes and the measurements that shaped the ladder: [docs/design-rationale.md](docs/design-rationale.md).
 

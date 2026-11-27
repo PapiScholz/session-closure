@@ -138,9 +138,10 @@ the reasoning still goes row by row — writing "same" is forbidden.
 - [ ] Destination global `CLAUDE.md`: the ≥2 projects are named in the reason.
 - [ ] A rule that duplicates something already in `~/.claude/CLAUDE.md` → destination `None`.
 
-Backed by this plugin's `lesson-batching-guard` hook: it blocks an Edit that adds >3 bullets to any
-`CLAUDE.md` in one call unless the `new_string` carries the literal marker
-`<!-- ROUTING-TABLE-EMITTED -->`.
+Nothing in this plugin enforces this table: it is a step, not a block. It is also the step most
+often skipped, so emit it even when the closure looks small. If the user wants a real block (an Edit
+that adds >3 bullets to a `CLAUDE.md` without the table), offer it as a level 1 rule for their own
+setup, following `references/mechanize.md`.
 
 ---
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.0 — 2026-11-27
+
+- Removed the bundled `lesson-batching-guard` hook: the Claude directory accepts script files only
+  from Verified organizations. The plugin is now Markdown only. The routing table in Phase 2.5 is
+  still required, and the skill offers the block as a level 1 rule for the user's own setup.
+- CI checks run inline in the workflows instead of separate scripts.
+
 ## 1.1.0 — 2026-10-28
 
 - The analysis starts with an inventory of the whole session, built from the transcript by a cheap

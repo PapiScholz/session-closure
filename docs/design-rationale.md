@@ -68,6 +68,9 @@ lines of hook code plus a `settings.json` registration, so writing a paragraph a
 2. **The lesson-batching guard is registered and still bites.** 4 bullets to a `CLAUDE.md` without the
    marker → blocked; with `<!-- ROUTING-TABLE-EMITTED -->` → allowed. It is the one mechanism that
    backs this skill: without it, Phase 2.5 would be prose. It now ships inside the plugin.
+   *(1.2.0: removed from the plugin. The Claude directory accepts script files only from Verified
+   organizations, so the hook can't ship in the directory version; Phase 2.5 is prose again, and
+   the skill offers the block as a level 1 rule the user installs in their own setup.)*
 
 3. **RED of the ladder** with three lessons already persisted from the session, to check that it
    doesn't send everything to the same place:
