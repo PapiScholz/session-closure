@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.1 — 2026-11-27
+
+- CI only: the version guard reads the base commit from the GitHub event instead of an `env:`
+  block, which the directory's policy check read as a forwarded credential. Nothing that installs
+  changed.
+
 ## 1.2.0 — 2026-11-27
 
 - Removed the bundled `lesson-batching-guard` hook: the Claude directory accepts script files only
