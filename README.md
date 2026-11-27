@@ -78,8 +78,8 @@ This section is the full list of what the plugin does on your machine:
 claude plugin validate .
 ```
 
-CI checks that nothing personal leaks into what ships and that every change to the plugin bumps
-its version.
+CI checks that nothing personal leaks into what ships. Bump `version` in `plugin.json` with every
+change to the plugin: `claude plugin update` only delivers a new copy when the version moves.
 
 Design notes and the measurements that shaped the ladder: [docs/design-rationale.md](docs/design-rationale.md).
 

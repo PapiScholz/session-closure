@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.2 — 2026-11-27
+
+- CI only: removed the version guard workflow. The directory's policy check kept reading it as a
+  credential the plugin could forward and refused 1.2.1. Version bumps are now checked by hand.
+
 ## 1.2.1 — 2026-11-27
 
 - CI only: the version guard reads the base commit from the GitHub event instead of an `env:`
